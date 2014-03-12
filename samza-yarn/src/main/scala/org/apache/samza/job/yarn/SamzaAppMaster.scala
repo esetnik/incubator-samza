@@ -62,6 +62,7 @@ object SamzaAppMaster extends Logging {
     info("got config: %s" format config)
     val hConfig = new YarnConfiguration
     hConfig.set("fs.http.impl", classOf[HttpFileSystem].getName)
+    hConfig.set("yarn.resourcemanager.hostname", config.getResourceManagerHostname.get)
     val amClient = new AMRMClientImpl[ContainerRequest]
     val clientHelper = new ClientHelper(hConfig)
     val registry = new MetricsRegistryMap

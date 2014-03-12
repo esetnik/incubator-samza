@@ -22,6 +22,7 @@ package org.apache.samza.config
 object YarnConfig {
   // yarn job config
   val PACKAGE_PATH = "yarn.package.path"
+  val RM_HOSTNAME = "yarn.rm.hostname"
   val CONTAINER_MAX_MEMORY_MB = "yarn.container.memory.mb"
   val CONTAINER_MAX_CPU_CORES = "yarn.container.cpu.cores"
   val CONTAINER_RETRY_COUNT = "yarn.countainer.retry.count"
@@ -30,6 +31,7 @@ object YarnConfig {
   val AM_JVM_OPTIONS = "yarn.am.opts"
   val AM_JMX_ENABLED = "yarn.am.jmx.enabled"
   val AM_CONTAINER_MAX_MEMORY_MB = "yarn.am.container.memory.mb"
+
 
   implicit def Config2Yarn(config: Config) = new YarnConfig(config)
 }
@@ -56,6 +58,8 @@ class YarnConfig(config: Config) extends ScalaMapConfig(config) {
   }
 
   def getPackagePath = getOption(YarnConfig.PACKAGE_PATH)
+
+  def getResourceManagerHostname = getOption(YarnConfig.RM_HOSTNAME)
 
   def getTaskCount: Option[Int] = getOption(YarnConfig.TASK_COUNT) match {
     case Some(tc) => Some(tc.toInt)
