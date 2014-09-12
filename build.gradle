@@ -288,6 +288,16 @@ project(":samza-shell") {
     jvmArgs = ["-Dlog4j.configuration=file:src/main/resources/log4j-console.xml"]
   }
 
+  // Usage: ./gradlew samza-shell:killYarnJob \
+  //    -PappId=application_1410535671161_0005
+  task killYarnJob(type:JavaExec) {
+    main = 'org.apache.hadoop.yarn.client.cli.ApplicationCLI'
+    classpath = configurations.gradleShell
+    args 'application', '-kill'
+    if (project.hasProperty('appId')) args += appId
+    jvmArgs = ["-Dlog4j.configuration=file:src/main/resources/log4j-console.xml"]
+  }
+
   // Usage: ./gradlew samza-shell:checkpointTool \
   //    -PconfigPath=file:///path/to/job/config.properties -PnewOffsets=file:///path/to/new/offsets.properties
   task checkpointTool(type:JavaExec) {
